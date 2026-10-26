@@ -1,0 +1,12 @@
+# Pinned versions verified together on Python 3.12 (2026-10-20).
+# Update all pins together and re-run notebooks/00_check_setup.ipynb (see TEACHER.md).
+qiskit==2.6.0
+qiskit-aer==0.18.0
+numpy==2.5.4
+matplotlib==3.11.2
+pylatexenc==2.11
+ipykernel==7.4.0
+sympy==1.14.0        # needed for Statevector(...).draw("latex") ket display
+
+# Real IBM hardware (needs an IBM Quantum account / classroom access). Uncomment when needed:
+# qiskit-ibm-runtime==0.50.0

@@ -1,0 +1,52 @@
+// Honors Quantum Computing & ML (TAS) - Qiskit Codespace
+// Lean on purpose: one Python image, two extensions, pinned pip packages.
+{
+  "name": "QC&ML Qiskit (Python 3.12)",
+  // Pin Debian bookworm: on the trixie variant (the current default for "3-3.12"),
+  // importing qiskit_aer fails with "libgomp ... cannot allocate memory in static TLS block"
+  // (tested 2026-10-20 with qiskit-aer 0.18.0 and 0.17.2). Bookworm works.
+  "image": "mcr.microsoft.com/devcontainers/python:3-3.12-bookworm",
+
+  // Smallest Codespaces machine (2 cores / 8 GB RAM / 32 GB disk) = slowest drain of the free quota.
+  "hostRequirements": {
+    "cpus": 2
+  },
+
+  // onCreateCommand (not postCreateCommand) so the install is captured if the
+  // teacher enables prebuilds; prebuilds skip postCreateCommand entirely.
+  "onCreateCommand": "pip install --no-cache-dir --disable-pip-version-check -r requirements.txt",
+  // Quick sanity line in the creation log; cheap, runs after install.
+  "postCreateCommand": "python -c \"import qiskit, qiskit_aer; print('Qiskit', qiskit.__version__, '| Aer', qiskit_aer.__version__, '- ready')\"",
+
+  "customizations": {
+    "codespaces": {
+      // Opened automatically when a codespace is first created.
+      "openFiles": ["README.md", "notebooks/00_check_setup.ipynb"]
+    },
+    "vscode": {
+      // Copilot is intentionally NOT listed (AI is allowed in class, but not pre-installed here).
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter"
+      ],
+      "settings": {
+        // The image's Python 3.12 is the only interpreter; notebooks pick it as the kernel.
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.terminal.activateEnvironment": false,
+        "jupyter.kernels.excludePythonEnvironments": [
+          "/usr/bin/python3",
+          "/bin/python3"
+        ],
+        // Students lose less work if the browser tab closes.
+        "files.autoSave": "afterDelay",
+        "files.autoSaveDelay": 1000,
+        "notebook.output.textLineLimit": 60,
+        "workbench.startupEditor": "none",
+        "files.exclude": {
+          "**/.ipynb_checkpoints": true,
+          "**/__pycache__": true
+        }
+      }
+    }
+  }
+}
